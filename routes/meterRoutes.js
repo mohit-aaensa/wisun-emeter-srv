@@ -9,6 +9,7 @@ router.post('/data', async (req, res) => {
   try {
     // Accept both old and new (Wi-SUN) formats
     const body = req.body;
+    console.log("Received body:", body);
     const deviceId = body.deviceId || body.device;
     const nodeId = body.nodeId || body.parent;
     const current = body.current !== undefined ? body.current : body.Current;
