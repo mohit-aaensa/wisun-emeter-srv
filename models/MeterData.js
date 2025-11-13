@@ -26,7 +26,7 @@ const meterDataSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
-      max: 1,
+      max: 3,
       description: "Ratio of real to apparent power",
     },
     apparentPower: {

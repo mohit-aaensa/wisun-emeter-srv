@@ -1,9 +1,11 @@
 const axios = require('axios');
 
 // Configuration
-const BACKEND_URL = 'http://localhost:5000/api';
-const DEVICE_ID = '345678909876';
-const NODE_IDS = ['NODE011', 'NODE012', 'NODE013','NODE014','NODE015'];
+const BACKEND_URL = 'https://wisun-emeter.onrender.com/api';
+const DEVICE_ID = '2459';
+const NODE_IDS = ['MohitAaensa'];
+// const DEVICE_ID = '345678909876';
+// const NODE_IDS = ['NODE011', 'NODE012', 'NODE013','NODE014','NODE015'];
 // const NODE_IDS = ['NODE_METER_003'];
 const SEND_INTERVAL = 5000; // milliseconds
 
@@ -79,13 +81,39 @@ function generateMeterData(nodeId) {
   // Apparent power calculation (simplified)
   const apparentPower = parseFloat(((voltage * current * powerFactor) / 1000).toFixed(2));
 
+  // Simulate additional fields
+  const runningSeconds = Math.floor(Math.random() * 300 + 60); // 1-6 min
+  const connectedSeconds = Math.floor(Math.random() * runningSeconds);
+  const disconnectedSeconds = runningSeconds - connectedSeconds;
+  function formatDuration(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h}-` + `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
   return {
-    deviceId: DEVICE_ID,
-    nodeId,
-    current,
-    voltage,
-    powerFactor,
-    apparentPower
+    device: DEVICE_ID,
+    chip: 'xG28',
+    parent: NODE_IDS[NODE_IDS.length - 1],
+    running: formatDuration(runningSeconds),
+    connected: formatDuration(connectedSeconds),
+    disconnected: disconnectedSeconds > 0 ? formatDuration(disconnectedSeconds) : 'no',
+    connections: '1',
+    availability: '100.00',
+    connected_total: formatDuration(connectedSeconds),
+    disconnected_total: formatDuration(disconnectedSeconds),
+    Wisun_Data: 'WiSUN-Board-20', 
+    // neighbor_info: {
+    //   rsl_in: -30 - Math.floor(Math.random() * 10),
+    //   rsl_out: -30 - Math.floor(Math.random() * 10),
+    //   is_lfn: Math.floor(Math.random() * 10)
+    // },
+    current: current.toFixed(2),
+    voltage: voltage.toFixed(2),
+    powerFactor: powerFactor.toFixed(3),
+    apparentPower: apparentPower.toFixed(2),
+    nodeId
   };
 }
 

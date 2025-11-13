@@ -5,7 +5,7 @@ const dgram = require('dgram');
 const readline = require('readline');
 
 const UDP_PORT = process.env.UDP_PORT || 41234;
-const UDP_HOST = process.env.UDP_HOST || '127.0.0.1';
+const UDP_HOST = 'wisun-emeter.onrender.com';
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -34,7 +34,7 @@ function generateRandomData(nodeId) {
     connected_total: '0-00:02:09',
     disconnected_total: '0-00:00:00',
     Wisun_Data: 'WiSUN-Board-20',
-    neighbor_info: { rsl_in: -34, rsl_out: -37, is_lfn: 5 },
+    // neighbor_info: { rsl_in: -34, rsl_out: -37, is_lfn: 5 },
     // Meter values
     current: (Math.random() * 10 + 1).toFixed(2),
     voltage: (Math.random() * 100 + 200).toFixed(2),
